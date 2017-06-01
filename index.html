@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <title>IoT Restaurant</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; margin:0; height: 100vh}
+      .app { display: flex; align-items: center; justify-content: flex-start; flex-direction: column; height: inherit}
+      .title-block { margin: 4em auto}
+      .icon-block {}
+    </style>
+  </head>
+  
+  <body>
+	  <div class="app">
+		  <div class="title-block">
+			  <p id="rfid">Waiting on a RFID tag</p>
+		  </div>
+		  <div class="icon-block"></div>
+	  </div>
+	  
+	  
+	  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	  <script>
+		$(function () {
+        var socket = io();
+        
+        socket.on('rfid', function(msg){
+			var welcomeMsg;
+			if(!msg){
+				welcomeMsg = 'Welcome to IoT Trailhead Bar, ' + msg;
+			} else {
+				welcomeMsg = 'User was not recognized. Please go register at the booth.';
+			}
+			
+			$('#rfid').text(welcomeMsg);
+			
+          ///window.scrollTo(0, document.body.scrollHeight);
+        });
+      });
+	  </script>
+  </body>
+</html>

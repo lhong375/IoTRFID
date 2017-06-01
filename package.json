@@ -1,0 +1,25 @@
+{
+  "name": "iotrfid",
+  "version": "1.0.0",
+  "description": "A node app to read RFID tags and display ID",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kgowru/IoTRFID.git"
+  },
+  "author": "Kapil Gowru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kgowru/IoTRFID/issues"
+  },
+  "homepage": "https://github.com/kgowru/IoTRFID#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "jsforce": "^1.8.0",
+    "rc522": "^0.1.2",
+    "socket.io": "^1.7.4"
+  }
+}
