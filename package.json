@@ -1,7 +1,7 @@
 {
   "name": "iotrfid",
   "version": "1.0.0",
-  "description": "A node app to read RFID tags and display ID",
+  "description": "A node app to read RFID tags and display contact from Salesforce",
   "main": "index.js",
   "scripts": {
     "test": "test"
