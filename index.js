@@ -12,6 +12,8 @@ sfConn.login("kapil.gowru@iotsupporttraining.com", "test!234", function(err, use
 	console.log('logged into salesforce');
 });
 
+app.use('/static', express.static(__dirname + '/public'))
+
 app.get('/', function(req, res, next) {
 	res.sendFile(__dirname + '/index.html');
 });
@@ -21,12 +23,13 @@ io.on('connection', function(socket){
 	rc522(function(rfidSerialNumber){
 		if(rfidSerialNumber){
 			sfConn.query("SELECT Name from Contact WHERE rfid__c =\'" + rfidSerialNumber + "\'", function(err, result){
+				if(err) { io.emit('rfid', ''); return console.error(err);} 
 				console.log('ths is the rfid: ' + rfidSerialNumber);
-				if(result.records[0].Name) 
+				console.log('return salesforce respone: ' + JSON.stringify(result));
+				if(result && result.records && result.records.length !== 0 && result.records[0].Name) 
 					io.emit('rfid', result.records[0].Name); 
 				else 
 					io.emit('rfid', null);
-				console.log("returned contact object", JSON.stringify(result));
 			});
 			
 			//send IoT cloud request here
