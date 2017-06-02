@@ -28,11 +28,11 @@ io.on('connection', function(socket){
 //LCD start
 var Lcd = require('lcd'),
   lcd = new Lcd({
-    rs: 12,
-    e: 21,
-    data: [5, 6, 17, 18],
-    cols: 16,
-    rows: 1
+    rs: 13,
+    e: 24,
+    data: [23, 17, 18, 22],
+    cols: 8,
+    rows: 2
   });
  
 lcd.on('ready', function() {
