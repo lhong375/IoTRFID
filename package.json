@@ -19,6 +19,7 @@
   "dependencies": {
     "express": "^4.15.3",
     "jsforce": "^1.8.0",
+    "lcd": "^1.1.4",
     "rc522": "^0.1.2",
     "socket.io": "^1.7.4"
   }
