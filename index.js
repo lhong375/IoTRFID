@@ -80,7 +80,7 @@ process.on('SIGINT', function() {
 						CarID__c: rfidSerialNumber,
 						Occupited__c: true,
 						ParkingLotID__c: 1,
-						Time__c: Date().toString()
+						Time__c: Date()
 						}, function(err, result){
 						if(err) return console.error(err);
 						console.log('checkin event sent to IoT Cloud');
