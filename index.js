@@ -81,6 +81,9 @@ process.on('SIGINT', function() {
 						Occupited: true,
 						ParkingLotID: 1,
 						Time: Date().toString()
+						}, function(err, result){
+						if(err) return console.error(err);
+						console.log('checkin event sent to IoT Cloud');
 						});
 				}
 					
