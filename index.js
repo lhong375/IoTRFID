@@ -70,13 +70,17 @@ process.on('SIGINT', function() {
 				console.log('return salesforce respone: ' + JSON.stringify(result));
 				if(result && result.records && result.records.length !== 0 && result.records[0].Name) {
 					io.emit('rfid', result.records[0].Name); 
-					sfConn.sobject('checkin__e').create({
-						location__c: 'parking',//restaurant
-						userid__c:result.records[0].Id,
-						time__c: new Date().toISOString()
-						}, function(err, result){
-						if(err) return console.error(err);
-						console.log('checkin event sent to IoT Cloud');
+					sfConn.sobject('ParkingLotEvent__e').create({
+						//location__c: 'parking',//restaurant
+						//userid__c:result.records[0].Id,
+						//time__c: new Date().toISOString()
+						//}, function(err, result){
+						//if(err) return console.error(err);
+						//console.log('checkin event sent to IoT Cloud');
+						CarID: rfidSerialNumber,
+						Occupited: true,
+						ParkingLotID: 1,
+						Time: Date().toString()
 						});
 				}
 					
