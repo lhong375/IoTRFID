@@ -26,12 +26,12 @@ io.on('connection', function(socket){
 		if(rfidSerialNumber){
 			sfConn.query("SELECT Name, Id from Contact WHERE rfid__c =\'" + rfidSerialNumber + "\'", function(err, result){
 				if(err) { io.emit('rfid', ''); return console.error(err);} 
-				console.log('ths is the rfid: ' + rfidSerialNumber);
+				console.log('ths is the rfid: ' + rfidSerialNumber);// e558cd65  c78ba1d5
 				console.log('return salesforce respone: ' + JSON.stringify(result));
 				if(result && result.records && result.records.length !== 0 && result.records[0].Name) {
 					io.emit('rfid', result.records[0].Name); 
 					sfConn.sobject('checkin__e').create({
-						location__c: 'restaurant',
+						location__c: 'parking',//restaurant
 						userid__c:result.records[0].Id,
 						time__c: new Date().toISOString()
 						}, function(err, result){
