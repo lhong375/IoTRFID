@@ -6,7 +6,7 @@ var express = require('express'),
 	jsforce = require('jsforce');
 
 var sfConn = new jsforce.Connection({
-	loginUrl: 'https://corsa04-perfeng2-2015139045.vpod.t.force.com/'
+	loginUrl: 'https://corsa04-perfeng2-2015142130.vpod.t.force.com/'
 });
 
 sfConn.login("legocity@iot.com", "legolego", function(err, userInfo){
@@ -31,14 +31,14 @@ var Lcd = require('lcd'),
     rs: 13,
     e: 24,
     data: [23, 17, 18, 22],
-    cols: 8,
-    rows: 2
+    cols: 16,
+    rows: 1
   });
  
 lcd.on('ready', function() {
   lcd.setCursor(16, 0);
   lcd.autoscroll();
-  print('Hello, World! ** ');
+  print('Hello, IoT!!! ** ');
 });
  
 function print(str, pos) {
@@ -63,7 +63,7 @@ process.on('SIGINT', function() {
 });
 
 //LCD end
-
+//e558cd65 3da22052  c78ba1d5
 			sfConn.query("SELECT Name, Id from Contact WHERE rfid__c =\'" + rfidSerialNumber + "\'", function(err, result){
 				if(err) { io.emit('rfid', ''); return console.error(err);} 
 				console.log('ths is the rfid: ' + rfidSerialNumber);// e558cd65  c78ba1d5
