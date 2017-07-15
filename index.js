@@ -20,53 +20,57 @@ app.get('/', function(req, res, next) {
 	res.sendFile(__dirname + '/index.html');
 });
 
+const rfidSerialNumberToName = {
+	'e558cd65': 'Lin',
+	'c78ba1d5': 'Isaac',
+	'3da22052': 'Mia'
+}
+
+var parkingLotSpots = [
+	{'ParkingLotID': 1}, {'ParkingLotID': 2}
+];
+
+var NumberOfCars = 0;
+
 io.on('connection', function(socket){
 	console.log('a user connected');
 	rc522(function(rfidSerialNumber){
 		if(rfidSerialNumber){
+			console.log('we have picked up rfid:' + rfidSerialNumber);// e558cd65  c78ba1d5
+			if(rfidSerialNumberToName[rfidSerialNumber]) {
+				var name = rfidSerialNumberToName[rfidSerialNumber];
+				console.log("User "+name);
 
-//LCD start
-var Lcd = require('lcd'),
-  lcd = new Lcd({
-    rs: 13,
-    e: 24,
-    data: [23, 17, 18, 22],
-    cols: 16,
-    rows: 1
-  });
- 
-lcd.on('ready', function() {
-  lcd.setCursor(16, 0);
-  lcd.autoscroll();
-  print('Hello, IoT!!! ** ');
-});
- 
-function print(str, pos) {
-  pos = pos || 0;
- 
-  if (pos === str.length) {
-    pos = 0;
-  }
- 
-  lcd.print(str[pos]);
- 
-  setTimeout(function() {
-    print(str, pos + 1);
-  }, 300);
-}
- 
-// If ctrl+c is hit, free resources and exit.
-process.on('SIGINT', function() {
-  lcd.clear();
-  lcd.close();
-  process.exit();
-});
+				var emptySpot = parkingLotSpots.find( (spot) => { return !spot.Occupied; } )
 
-//LCD end
-//e558cd65 3da22052  c78ba1d5
-			sfConn.query("SELECT Name, Id from Contact WHERE rfid__c =\'" + rfidSerialNumber + "\'", function(err, result){
+				if(emptySpot) {
+					console.log(name+" is going to park at spot#"+emptySpot.ParkingLotID);
+					NumberOfCars ++;
+					emptySpot['Occupied'] = true;
+					emptySpot['CarID'] = rfidSerialNumber;
+					sfConn.sobject('ParkingLotEvent__e').create({
+						CarID__c: rfidSerialNumber,
+						NumberOfCars__c: NumberOfCars,
+						ParkingLotID__c: emptySpot.ParkingLotID,
+						//Time__c: Date()
+						}, function(err, result){
+							if(err) return console.error(err);
+							console.log('event sent to IoT Cloud');
+						}
+					);
+				} else {
+					console.log("Parking lot full !");
+				}
+				
+			} else {
+				console.log("Please add rfid to rfidSerialNumberToName map");
+			}
+
+			
+			//e558cd65 3da22052  c78ba1d5
+			/*sfConn.query("SELECT Name, Id from Contact WHERE rfid__c =\'" + rfidSerialNumber + "\'", function(err, result){
 				if(err) { io.emit('rfid', ''); return console.error(err);} 
-				console.log('ths is the rfid: ' + rfidSerialNumber);// e558cd65  c78ba1d5
+				console.log('this is the rfid: ' + rfidSerialNumber);// e558cd65  c78ba1d5
 				console.log('return salesforce respone: ' + JSON.stringify(result));
 				if(result && result.records && result.records.length !== 0 && result.records[0].Name) {
 					io.emit('rfid', result.records[0].Name); 
@@ -89,7 +93,47 @@ process.on('SIGINT', function() {
 					
 				else 
 					io.emit('rfid', null);
+			}); */
+
+			//LCD start
+			var Lcd = require('lcd'),
+			  lcd = new Lcd({
+			    rs: 13,
+			    e: 24,
+			    data: [23, 17, 18, 22],
+			    cols: 16,
+			    rows: 1
+			  });
+			 
+			lcd.on('ready', function() {
+			  lcd.setCursor(16, 0);
+			  lcd.autoscroll();
+			  print('Hello, IoT!!! ** ');
 			});
+			 
+			function print(str, pos) {
+			  pos = pos || 0;
+			 
+			  if (pos === str.length) {
+			    pos = 0;
+			  }
+			 
+			  lcd.print(str[pos]);
+			 
+			  setTimeout(function() {
+			    print(str, pos + 1);
+			  }, 300);
+			}
+			 
+			// If ctrl+c is hit, free resources and exit.
+			process.on('SIGINT', function() {
+			  lcd.clear();
+			  lcd.close();
+			  process.exit();
+			});
+
+			//LCD end
+			
 			
 			//send IoT cloud request here
 		}
