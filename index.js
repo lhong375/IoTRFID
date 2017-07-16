@@ -108,7 +108,7 @@ io.on('connection', function(socket){
 					  			console.log("clearing up lcd");
 							    lcd.clear(function(err) {
 							    	if(err) console.log("lcd clear run into error:", err);
-							    	lcd.print( (NumberOfCars == 2) ? 'Garage Open' : 'Garage Full' );
+							    	lcd.print( (NumberOfCars == 2) ? 'Garage Full' : 'Garage Open' );
 							    	//lcd.close();
 							    });
 							}, 5000);
