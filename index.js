@@ -1,3 +1,8 @@
+/*
+[Error: Invalid URI "/services/data/v39.0/sobjects/ParkingLotEvent__e"]
+[Error: Invalid URI "/services/data/v39.0/sobjects/ParkingLotEvent__e"]
+*/
+
 var express = require('express'),
 	app = express(),
 	http = require('http').Server(app),
