@@ -75,7 +75,7 @@ io.on('connection', function(socket){
 							return spots[i];
 						}
 					}
-					return undefind;
+					return undefined;
 					//return spot.Occupied && (spot.CarID === rfidSerialNumber); 
 				};
 				var carLeavingSpot = findCar(parkingLotSpots);
