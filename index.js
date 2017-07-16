@@ -7,6 +7,7 @@ var express = require('express'),
 	Lcd = require('lcd');
 
 var sfConn = new jsforce.Connection({
+	version: '41.0',
 	loginUrl: 'https://corsa04-perfeng2-2015142130.vpod.t.force.com/'
 });
 
@@ -129,7 +130,6 @@ io.on('connection', function(socket){
 						NumberOfCars__c: NumberOfCars,
 						ParkingLotID__c: carLeavingSpot.ParkingLotID,
 						CarIn__c: 'false'
-							//Time__c: Date()
 						}, function(err, result){
 								if(err) return console.error(err);
 								console.log('event sent to IoT Cloud');
@@ -155,7 +155,6 @@ io.on('connection', function(socket){
 							NumberOfCars__c: NumberOfCars,
 							ParkingLotID__c: emptySpot.ParkingLotID,
 							CarIn__c: 'true'
-							//Time__c: Date()
 							}, function(err, result){
 								if(err) return console.error(err);
 								console.log('event sent to IoT Cloud');
