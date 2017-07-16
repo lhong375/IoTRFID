@@ -69,10 +69,16 @@ io.on('connection', function(socket){
 				var name = rfidSerialNumberToName[rfidSerialNumber];
 				console.log("User "+name);
 
-				function findCar(spot) { 
-					return spot.Occupied && (spot.CarID === rfidSerialNumber); 
+				function findCar(spots) { 
+					for(var i = 0; i<spots.length; i++) {
+						if(spots[i].Occupied && (spots[i].CarID === rfidSerialNumber) ) {
+							return spots[i];
+						}
+					}
+					return undefind;
+					//return spot.Occupied && (spot.CarID === rfidSerialNumber); 
 				};
-				var carLeavingSpot = parkingLotSpots.find(findCar);
+				var carLeavingSpot = findCar(parkingLotSpots);
 
 				/////////////////////////// LCD START ///////////////////////////
 
