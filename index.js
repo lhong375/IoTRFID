@@ -23,8 +23,8 @@ app.get('/', function(req, res, next) {
 
 const rfidSerialNumberToName = {
 	'e558cd65': 'Lin',
-	'c78ba1d5': 'Isaac',
-	'3da22052': 'Mia'
+	'c78ba1d5': 'Mia',
+	'3da22052': 'Isaac'
 }
 
 var parkingLotSpots = [
@@ -43,9 +43,9 @@ io.on('connection', function(socket){
 				console.log("User "+name);
 
 				lcd = new Lcd({
-				    rs: 13,
-				    e: 24,
-				    data: [23, 17, 18, 22],
+				    rs: 26,
+				    e: 13,
+				    data: [6, 5, 22, 27],
 				    cols: 16,
 				    rows: 1
 				  });
@@ -59,14 +59,14 @@ io.on('connection', function(socket){
 				  		setInterval(function () {
 				  			console.log("clearing up lcd");
 						    lcd.clear(function(err) {
-						    	if(err) console.log("lcd clear run into error:", error);
+						    	if(err) console.log("lcd clear run into error:", err);
 						    	lcd.close();
 						    });
 						}, 5000);
 				  	});
 				});
 
-				var emptySpot = parkingLotSpots.find( function(spot){ return !spot.Occupied; } )
+				var emptySpot = parkingLotSpots[0];//.find( function(spot){ return !spot.Occupied; } )
 
 				if(emptySpot) {
 					console.log(name+" is going to park at spot#"+emptySpot.ParkingLotID);
