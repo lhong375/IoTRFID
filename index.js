@@ -66,7 +66,7 @@ io.on('connection', function(socket){
 				  	});
 				});
 
-				var emptySpot = parkingLotSpots.find( (spot) => { return !spot.Occupied; } )
+				var emptySpot = parkingLotSpots.find( function(spot){ return !spot.Occupied; } )
 
 				if(emptySpot) {
 					console.log(name+" is going to park at spot#"+emptySpot.ParkingLotID);
