@@ -91,19 +91,24 @@ io.on('connection', function(socket){
 				});
 				 
 				lcd.on('ready', function() {
-					lcd.print( (carLeavingSpot ? 'ByeBye ' : 'Hello, ')+name, 
-				  	function(err, str) {
-				  		if(err) {
-				  			console.log("lcd run into error:", err);
-				  		}
-				  		setTimeout(function () {
-				  			console.log("clearing up lcd");
-						    lcd.clear(function(err) {
-						    	if(err) console.log("lcd clear run into error:", err);
-						    	lcd.close();
-						    });
-						}, 5000);
-				  	});
+					lcd.clear(function(err) {
+						if(err) console.log("lcd clear run into error:", err);
+						lcd.print( (carLeavingSpot ? 'ByeBye ' : 'Hello, ')+name, 
+					  	function(err, str) {
+					  		if(err) {
+					  			console.log("lcd run into error:", err);
+					  		}
+					  		setTimeout(function () {
+					  			console.log("clearing up lcd");
+							    lcd.clear(function(err) {
+							    	if(err) console.log("lcd clear run into error:", err);
+							    	lcd.close();
+							    });
+							}, 5000);
+					  	});
+					});
+
+					
 				});
 
 				/////////////////////////// LCD END ///////////////////////////
@@ -124,7 +129,7 @@ io.on('connection', function(socket){
 						}
 					);
 				} else {
-					function findCar(spots) { 
+					function findSpot(spots) { 
 						for(var i = 0; i<spots.length; i++) {
 							if(!spots[i].Occupied) {
 								return spots[i];
@@ -132,7 +137,7 @@ io.on('connection', function(socket){
 						}
 						return undefined;
 					};
-					var emptySpot = findCar(parkingLotSpots);
+					var emptySpot = findSpot(parkingLotSpots);
 					if (emptySpot) {
 						console.log(name+" is going to park at spot#"+emptySpot.ParkingLotID);
 						NumberOfCars ++;
