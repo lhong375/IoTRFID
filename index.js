@@ -124,9 +124,15 @@ io.on('connection', function(socket){
 						}
 					);
 				} else {
-					//var emptySpot = parkingLotSpots[0];//.find( function(spot){ return !spot.Occupied; } )
-					var emptySpot = parkingLotSpots.find( function(spot){ return !spot.Occupied; } );
-
+					function findCar(spots) { 
+						for(var i = 0; i<spots.length; i++) {
+							if(!spots[i].Occupied) {
+								return spots[i];
+							}
+						}
+						return undefined;
+					};
+					var emptySpot = findCar(parkingLotSpots);
 					if (emptySpot) {
 						console.log(name+" is going to park at spot#"+emptySpot.ParkingLotID);
 						NumberOfCars ++;
