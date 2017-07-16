@@ -97,11 +97,7 @@ io.on('connection', function(socket){
 						if(carLeavingSpot) {
 							msg = 'ByeBye ' + name;
 						} else {
-							if (NumberOfCars == 2) {
-								msg = 'Garage Full';
-							} else {
-								msg = 'Hello '+ name;
-							}
+							msg = 'Hello '+ name;
 						}
 						lcd.print(msg, 
 					  	function(err, str) {
@@ -112,7 +108,8 @@ io.on('connection', function(socket){
 					  			console.log("clearing up lcd");
 							    lcd.clear(function(err) {
 							    	if(err) console.log("lcd clear run into error:", err);
-							    	lcd.close();
+							    	lcd.print( (NumberOfCars == 2) ? 'Garage Open' : 'Garage Full' );
+							    	//lcd.close();
 							    });
 							}, 5000);
 					  	});
