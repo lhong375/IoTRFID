@@ -33,6 +33,10 @@ var parkingLotSpots = [
 
 var NumberOfCars = 0;
 
+var findCar = function(spot) { 
+	return spot.Occupied && (spot.CarID === rfidSerialNumber); 
+};
+
 io.on('connection', function(socket){
 	console.log('a user connected');
 
@@ -69,8 +73,7 @@ io.on('connection', function(socket){
 				var name = rfidSerialNumberToName[rfidSerialNumber];
 				console.log("User "+name);
 
-				var carLeavingSpot = parkingLotSpots.find( function(spot){ 
-					return spot.Occupied && (spot.CarID === rfidSerialNumber); });
+				var carLeavingSpot = parkingLotSpots.find(this.findCar);
 
 				/////////////////////////// LCD START ///////////////////////////
 
