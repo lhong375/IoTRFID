@@ -93,10 +93,20 @@ io.on('connection', function(socket){
 				lcd.on('ready', function() {
 					lcd.clear(function(err) {
 						if(err) console.log("lcd clear run into error:", err);
-						lcd.print( (carLeavingSpot ? 'ByeBye ' : 'Hello, ')+name, 
+						var msg;
+						if(carLeavingSpot) {
+							msg = 'ByeBye ' + name;
+						} else {
+							if (NumberOfCars == 2) {
+								msg = 'Garage Full';
+							} else {
+								msg = 'Hello '+ name;
+							}
+						}
+						lcd.print(msg, 
 					  	function(err, str) {
 					  		if(err) {
-					  			console.log("lcd run into error:", err);
+					  			console.log("lcd print run into error:", err);
 					  		}
 					  		setTimeout(function () {
 					  			console.log("clearing up lcd");
