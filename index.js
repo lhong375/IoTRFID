@@ -56,7 +56,7 @@ io.on('connection', function(socket){
 				  		if(err) {
 				  			console.log("lcd run into error:", err);
 				  		}
-				  		setInterval(function () {
+				  		setTimeout(function () {
 				  			console.log("clearing up lcd");
 						    lcd.clear(function(err) {
 						    	if(err) console.log("lcd clear run into error:", err);
