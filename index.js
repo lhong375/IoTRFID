@@ -3,7 +3,8 @@ var express = require('express'),
 	http = require('http').Server(app),
 	io = require('socket.io')(http),
 	rc522 = require('rc522'),
-	jsforce = require('jsforce');
+	jsforce = require('jsforce'),
+	Lcd = require('lcd');
 
 var sfConn = new jsforce.Connection({
 	loginUrl: 'https://corsa04-perfeng2-2015142130.vpod.t.force.com/'
@@ -40,6 +41,30 @@ io.on('connection', function(socket){
 			if(rfidSerialNumberToName[rfidSerialNumber]) {
 				var name = rfidSerialNumberToName[rfidSerialNumber];
 				console.log("User "+name);
+
+				lcd = new Lcd({
+				    rs: 13,
+				    e: 24,
+				    data: [23, 17, 18, 22],
+				    cols: 16,
+				    rows: 1
+				  });
+				 
+				lcd.on('ready', function() {
+					lcd.print('Hello, '+name, 
+				  	function(err, str) {
+				  		if(err) {
+				  			console.log("lcd run into error:", err);
+				  		}
+				  		setInterval(function () {
+				  			console.log("clearing up lcd");
+						    lcd.clear(function(err) {
+						    	if(err) console.log("lcd clear run into error:", error);
+						    	lcd.close();
+						    });
+						}, 5000);
+				  	});
+				});
 
 				var emptySpot = parkingLotSpots.find( (spot) => { return !spot.Occupied; } )
 
@@ -96,22 +121,13 @@ io.on('connection', function(socket){
 			}); */
 
 			//LCD start
-			var Lcd = require('lcd'),
-			  lcd = new Lcd({
-			    rs: 13,
-			    e: 24,
-			    data: [23, 17, 18, 22],
-			    cols: 16,
-			    rows: 1
-			  });
+			
+			
+
+			
+
 			 
-			lcd.on('ready', function() {
-			  lcd.setCursor(16, 0);
-			  lcd.autoscroll();
-			  print('Hello, IoT!!! ** ');
-			});
-			 
-			function print(str, pos) {
+			/*function print(str, pos) {
 			  pos = pos || 0;
 			 
 			  if (pos === str.length) {
@@ -123,14 +139,14 @@ io.on('connection', function(socket){
 			  setTimeout(function() {
 			    print(str, pos + 1);
 			  }, 300);
-			}
+			}*/
 			 
 			// If ctrl+c is hit, free resources and exit.
-			process.on('SIGINT', function() {
+			/*process.on('SIGINT', function() {
 			  lcd.clear();
 			  lcd.close();
 			  process.exit();
-			});
+			});*/
 
 			//LCD end
 			
