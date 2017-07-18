@@ -25,7 +25,7 @@ app.get('/', function(req, res, next) {
 const rfidSerialNumberToName = {
 	'e558cd65': 'Lin',
 	'c78ba1d5': 'Mia',
-	'3da22052': 'Isaac'
+	'3da22052': 'Sri'
 }
 
 var parkingLotSpots = [
