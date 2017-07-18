@@ -25,7 +25,7 @@ app.get('/', function(req, res, next) {
 const rfidSerialNumberToName = {
 	'e558cd65': 'Lin',
 	'c78ba1d5': 'Mia',
-	'3da22052': 'Sri'
+	'3da22052': 'Srinivas'
 }
 
 var parkingLotSpots = [
@@ -96,9 +96,9 @@ io.on('connection', function(socket){
 						if(err) console.log("lcd clear run into error:", err);
 						var msg;
 						if(carLeavingSpot) {
-							msg = 'ByeBye ' + name;
+							msg = 'Bye ' + name;
 						} else {
-							msg = 'Hello '+ name;
+							msg = 'Hi '+ name;
 						}
 						lcd.print(msg, 
 					  	function(err, str) {
