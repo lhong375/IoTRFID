@@ -129,7 +129,8 @@ io.on('connection', function(socket){
 						CarID__c: rfidSerialNumber,
 						NumberOfCars__c: NumberOfCars,
 						ParkingLotID__c: carLeavingSpot.ParkingLotID,
-						CarIn__c: 'false'
+						CarIn__c: 'false',
+						Full__c: (NumberOfCars>=2)?'true':'false'
 						}, function(err, result){
 								if(err) return console.error(err);
 								console.log('event sent to IoT Cloud');
@@ -154,7 +155,8 @@ io.on('connection', function(socket){
 							CarID__c: rfidSerialNumber,
 							NumberOfCars__c: NumberOfCars,
 							ParkingLotID__c: emptySpot.ParkingLotID,
-							CarIn__c: 'true'
+							CarIn__c: 'true',
+							Full__c: (NumberOfCars>=2)?'true':'false'
 							}, function(err, result){
 								if(err) return console.error(err);
 								console.log('event sent to IoT Cloud');
